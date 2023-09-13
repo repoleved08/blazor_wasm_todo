@@ -1,0 +1,42 @@
+﻿@page "/"
+<div class="columns">
+   <div class="column is-two-fifths">
+     <section class="section">
+        <AddTodo InsertTodo="AddNewTodo"/>  
+     </section>
+   </div>
+   <div class="column">
+    <section class="section">
+        @foreach(var todo in todoDtos){
+        <DisplayTodo todoDto="todo" ToBeRemoved="RemoveTodo"/>
+    }
+    </section>
+   </div>
+
+</div>
+
+@code {
+   public List<TodoDto> todoDtos = new List<TodoDto>()
+    {
+        new TodoDto()
+        {
+            Id = Guid.NewGuid(),
+            Title = "New Todo",
+            Description = "Code Webapi",
+            IsDone = false
+        }
+    };
+    public void AddNewTodo(TodoDto todo)
+    {
+        this.todoDtos.Add(todo);
+    }
+    public void RemoveTodo(Guid id)
+    {
+        try{
+            var todoToDispose = this.todoDtos.Find(x=>x.Id == id);
+            this.todoDtos.Remove(todoToDispose);
+        }catch(Exception ex){
+            Console.WriteLine(ex.Message);
+        }
+    }
+}

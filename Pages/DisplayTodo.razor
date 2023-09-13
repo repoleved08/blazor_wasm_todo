@@ -1,0 +1,36 @@
+﻿@page "/DisplayTodo"
+
+<div class="container">
+    <div class="columns card mb-4">
+       <div class="column">
+            <div class="card-content">
+                <div class="media-content">
+                    <p class="title is-4">@todoDto.Title</p>
+                </div>
+                    <div class="content">
+                        <p>@todoDto.Description</p>
+                    </div>
+                </div>
+       </div>
+       <div class="column">
+         <div class="card-content">
+            <div class="buttons">
+            <button class="button is-primary is-light">Update</button>
+            <button @onclick="DeleteTodo" class="button is-danger is-light">Delete</button>
+        </div>
+         </div>
+       </div>
+        
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public TodoDto todoDto {get; set;}
+    [Parameter]
+    public EventCallback<Guid> ToBeRemoved {set; get;}
+    public async Task DeleteTodo()
+    {
+        await ToBeRemoved.InvokeAsync(todoDto.Id);
+    }
+}

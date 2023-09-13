@@ -1,0 +1,59 @@
+﻿@page "/AddTodo"
+<div class="container">
+    <h3 class="subtitle">Add TODO</h3>
+<div class="field">
+  <label class="label">Title</label>
+  <div class="control">
+    <input class="input" @bind-value="@newTodo.Title" type="text" placeholder="Text input">
+  </div>
+</div>
+@*Description*@
+<div class="field">
+  <label class="label">Description</label>
+  <div class="control">
+    <textarea class="textarea" @bind="@newTodo.Description" placeholder="Textarea"></textarea>
+  </div>
+</div>
+@*Completed*@
+@*<div class="field">
+  <div class="control">
+    <label class="checkbox">
+      <input type="checkbox">
+      Check<a href="#">if Done</a>
+    </label>
+  </div>
+</div>*@
+@*Buttons*@
+<div class="field is-grouped">
+  <div class="control">
+    <button @onclick="SubmitTodo" class="button is-link">Submit</button>
+  </div>
+  <div class="control">
+    <button class="button is-link is-light">Cancel</button>
+  </div>
+</div>
+</div>
+@code {
+    public TodoDto newTodo = new()
+    {
+        Id = Guid.NewGuid()
+    };
+
+    [Parameter]
+    public EventCallback<TodoDto> InsertTodo {get; set;}
+    public async Task SubmitTodo()
+    {
+        await InsertTodo.InvokeAsync(newTodo);
+    }
+    // Update
+    @* private bool isUpdating = false;
+    [Parameter]
+    public TodoDto UpdateTodoDto {
+        get => newTodo;
+        set{
+            newTodo = value;
+            isUpdating = value
+
+        }
+    } *@
+}
